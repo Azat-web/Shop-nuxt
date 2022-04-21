@@ -1,13 +1,13 @@
 <template>
   <div class="wrapper__basket">
     <div class="wrapper__title">Ваш заказ</div>
-    <div class="basket__items">
-      <div class="basket__item">
+    <div class="basket__items" v-if="chairItemsCheck">
+      <div class="basket__item" v-for="chair in chairItems" :key="chair.id">
         <div class="basket__img">
-          <img src="../../assets/images/catalog/2.png" alt="chair" />
+          <img :src="getImg(chair.img)" alt="chair" />
         </div>
         <div class="basket__name">
-          <div class="basket__title">Кресло Самураи</div>
+          <div class="basket__title">{{ chair.name }}</div>
           <div class="basket__description">
             Характеристики, цвет, механизм и прочее Артикул: 266-460
           </div>
@@ -19,19 +19,21 @@
             borderRadius="50%"
             img="minus.png"
             mode="white"
+            @click="changeAmount(chair.id, 0)"
           />
-          <div class="basket__amount">1</div>
+          <div class="basket__amount">{{ chair.amount }}</div>
           <BaseAppButton
             width="44px"
             height="44px"
             borderRadius="50%"
             img="plus.png"
             mode="white"
+            @click="changeAmount(chair.id, 1)"
           />
         </div>
         <div class="basket__prices">
-          <div class="basket__price">23000</div>
-          <div class="basket__price">27000</div>
+          <div class="basket__price">{{ chair.price * chair.amount }} Р</div>
+          <div class="basket__price">{{ chair.outPrice * chair.amount }}</div>
         </div>
         <div class="basket__delete">
           <BaseAppButton
@@ -40,10 +42,11 @@
             borderRadius="50%"
             img="delete.png"
             mode="white"
+            @click="deleteChair(chair.id)"
           />
         </div>
       </div>
-      <div class="basket__total">Итого: 102000 тысячи</div>
+      <div class="basket__total">Итого: {{ chairTotalPrice }} тысячи</div>
       <MainInputBlock />
       <MainRadioBlock />
       <div class="basket__ordering">
@@ -61,11 +64,43 @@
         </div>
       </div>
     </div>
+    <div class="basket__empty" v-else>Корзина пуста :(</div>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+  methods: {
+    ...mapActions({
+      changeAmountChair: 'card/changeIsAmount',
+      deleteItemChair: 'card/deleteChair',
+    }),
+    changeAmount(id, plusOrMinus) {
+      this.changeAmountChair({ id, plusOrMinus })
+    },
+    deleteChair(id) {
+      this.deleteItemChair(id)
+    },
+    getImg(pic) {
+      return require('../../assets/images/catalog/' + pic)
+    },
+  },
+  computed: {
+    ...mapGetters({
+      chairItems: 'card/getIsChairs',
+    }),
+    chairItemsCheck() {
+      return this.chairItems.length
+    },
+    chairTotalPrice() {
+      return this.chairItems.reduce((accum, item) => {
+        return (accum = accum + item.price * item.amount)
+      }, 0)
+    },
+  },
+}
 </script>
 
 <style lang="scss">
@@ -192,10 +227,18 @@ export default {}
         justify-content: center;
         align-items: center;
         padding-left: 22px;
-        color: #959AAE;
-;
+        color: #959aae;
       }
     }
+  }
+  .basket__empty {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: 400;
+    min-height: 200px;
   }
 }
 </style>

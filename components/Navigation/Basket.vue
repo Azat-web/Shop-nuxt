@@ -7,14 +7,24 @@
       <span> Моя корзина </span>
     </div>
     <div class="basket__item">
-      <div>1</div>
+      <div>{{ amountChair }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Basket',
+  computed: {
+    ...mapGetters({
+      chairItems: 'card/getIsChairs'
+    }),
+    amountChair () {
+      return this.chairItems.length
+    }
+  },
   methods: {
     goToPage () {
       this.$router.push('/basket')
@@ -29,6 +39,7 @@ export default {
   justify-content: center;
   align-items: center;
   min-width: 170px;
+  cursor: pointer;
  &__item {
   &:first-child {
     img {

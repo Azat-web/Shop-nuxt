@@ -27,6 +27,7 @@
               borderRadius="8px"
               title="Добавить в корзину"
               mode="blue"
+              @click="addToCard(chair.id)"
             />
           </div>
         </div>
@@ -39,6 +40,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'ChairsBlock',
   data() {
@@ -49,102 +52,144 @@ export default {
       chairs: [
         {
           img: '1.png',
-          name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
+          name: 'Samurai KL-100 Темно-коричневый',
+          price: 23000,
+          outPrice: 27000,
           back: 'leather',
           seat: 'leather',
           headrest: true,
           armrest: true,
-          id: 1,
+          id: 1,          
+          amount: 1
         },
         {
           img: '2.png',
-          name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
-          back: 'leather',
+          name: 'Samurai KL-101 Темно-коричневый',
+          price: 19000,
+          outPrice: 27000,
+          back: 'grid',
           seat: 'leather',
           headrest: true,
           armrest: true,
           id: 2,
+          amount: 1
         },
         {
-          img: '2.png',
-          name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
-          back: 'leather',
-          seat: 'leather',
-          headrest: true,
-          armrest: true,
+          img: '3.jpg',
+          name: 'Samurai KL-102 Темно-коричневый',
+          price: 17000,
+          outPrice: 27000,
+          back: 'grid',
+          seat: 'textile',
+          headrest: false,
+          armrest: false,
           id: 3,
+          amount: 1
         },
         {
-          img: '2.png',
-          name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
+          img: '4.jpg',
+          name: 'Samurai KL-103 Темно-коричневый',
+          price: 13000,
+          outPrice: 27000,
           back: 'leather',
           seat: 'leather',
-          headrest: true,
-          armrest: true,
+          headrest: false,
+          armrest: false,
           id: 4,
+          amount: 1
         },
         {
-          img: '2.png',
+          img: '5.jpg',
           name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
+          price: 15000,
+          outPrice: 27000,
           back: 'leather',
           seat: 'leather',
-          headrest: true,
-          armrest: true,
+          headrest: false,
+          armrest: false,
           id: 5,
+          amount: 1
         },
         {
-          img: '2.png',
-          name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
-          back: 'leather',
+          img: '6.jpg',
+          name: 'Samurai KL-105 Темно-коричневый',
+          price: 16000,
+          outPrice: 27000,
+          back: 'grid',
           seat: 'leather',
           headrest: true,
           armrest: true,
           id: 6,
+          amount: 1
         },
         {
-          img: '2.png',
-          name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
-          back: 'leather',
-          seat: 'leather',
+          img: '7.jpg',
+          name: 'Samurai KL-106 Темно-коричневый',
+          price: 14000,
+          outPrice: 27000,
+          back: 'grid',
+          seat: 'textile',
           headrest: true,
           armrest: true,
           id: 7,
+          amount: 1
         },
         {
-          img: '2.png',
-          name: 'Samurai KL-104 Темно-коричневый',
-          price: '23000 Р',
-          outPrice: '27000 Р',
+          img: '8.jpg',
+          name: 'Samurai KL-107 Темно-коричневый',
+          price: 22000,
+          outPrice: 27000,
+          back: 'textile',
+          seat: 'textile',
+          headrest: false,
+          armrest: false,
+          id: 8,
+          amount: 1
+        },
+        {
+          img: '9.jpg',
+          name: 'Samurai KL-106 Темно-коричневый',
+          price: 14000,
+          outPrice: 27000,
+          back: 'leather',
+          seat: 'leather',
+          headrest: false,
+          armrest: true,
+          id: 9,
+          amount: 1
+        },
+        {
+          img: '10.jpg',
+          name: 'Samurai KL-107 Темно-коричневый',
+          price: 22000,
+          outPrice: 27000,
           back: 'leather',
           seat: 'leather',
           headrest: true,
           armrest: true,
-          id: 8,
+          id: 10,
+          amount: 1
         },
       ],
     }
   },
   methods: {
+    ...mapActions({
+      addToChair: "card/changeIsChairs"
+    }),
     getImgUrl(pic) {
       return require('../../assets/images/catalog/' + pic)
     },
     addBorder(index) {
       this.active = index
     },
+    addToCard (id) {
+      const a = this.chairs.filter(item => {
+        if(item.id === id) {
+          return item
+        } })
+      this.addToChair(...a)
+    }
   },
 }
 </script>

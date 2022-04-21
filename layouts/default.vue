@@ -89,6 +89,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .header {
   padding-top: 17px;
   margin: 0 auto;
@@ -96,6 +97,11 @@ export default {
   color: #2b3350;
   font-weight: 500;
   font-size: 16px;
+  position: sticky;
+  top: 0;
+  background: #ffff;
+  z-index: 100;
+  padding-bottom: 30px;
   &__layout {
     max-width: 1200px;
     margin: 0 auto;
